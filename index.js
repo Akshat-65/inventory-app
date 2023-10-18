@@ -1,5 +1,6 @@
 import express from 'express';
 import ProductController from './src/controllers/product.controller.js';
+import NewProductValidationMiddleware from './src/middlewares/newProductValidation.middleware.js';
 import path from "path";
 import ejsLayouts from 'express-ejs-layouts';
 
@@ -17,5 +18,6 @@ const productController = new ProductController();
 server.use(express.static('src/views'));
 server.get('/', productController.getProducts);
 server.get('/new', productController.getAddForm);
-server.post('/', productController.addNewProduct);
+server.post('/',NewProductValidationMiddleware, productController.addNewProduct);
+server.get('/update-product', productController.getUpdateProductView);
 server.listen(3400);
