@@ -16,7 +16,8 @@ export default class ProductController {
     console.log(req.body);
     ProductModel.add(req.body);
     let products = ProductModel.get();
-   return res.render("products",{ products: products });
+  //  return res.render("products",{ products: products });
+  return res.redirect('/');
   }
 
   postUpdateProduct(req, res) {
