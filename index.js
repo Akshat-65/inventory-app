@@ -12,12 +12,14 @@ server.set('view engine','ejs');
 server.set('views',path.join(path.resolve(), "src", "views"));
 server.use(express.urlencoded({extended:true}));
 
-server.use(ejsLayouts);
+server.use(ejsLayouts); 
 
 const productController = new ProductController();
 server.use(express.static('src/views'));
 server.get('/', productController.getProducts);
 server.get('/new', productController.getAddForm);
+server.get('/update-product/:id', productController.getUpdateProductView);
+server.get('/delete-product/:id', productController.deleteProduct);
 server.post('/',NewProductValidationMiddleware, productController.addNewProduct);
-server.get('/update-product', productController.getUpdateProductView);
+server.post('/update-product', productController.postUpdateProduct);
 server.listen(3400);

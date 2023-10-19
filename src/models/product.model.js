@@ -12,8 +12,9 @@ export default class ProductModel {
   }
 
   static add(productObj) {
+    let id = Math.floor(Math.random()*100000);
     let newProduct = new ProductModel(
-      products.length + 1,
+      id,
       productObj.name,
       productObj.desc,
       productObj.price,
@@ -22,9 +23,21 @@ export default class ProductModel {
     products.push(newProduct);
   }
 
-  static getById(id){
-   return products.find(p=>p.id==id)
+  static updateProduct(productObj){
+let index = products.findIndex(p=>p.id==productObj.id);
+products[index] = productObj;
   }
+
+  static delete(id){
+    let index = products.findIndex(p=>p.id==id);
+    products.splice(index,1);
+  }
+
+  static getById(id){
+   return products.find(p=>p.id==id);
+  }
+
+
 }
 
 var products = [
