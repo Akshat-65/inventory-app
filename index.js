@@ -4,6 +4,7 @@ import NewProductValidationMiddleware from "./src/middlewares/newProductValidati
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
 import { uploadFile } from "./src/middlewares/file-upload.middleware.js";
+import UserController from "./src/controllers/user.controller.js";
 
 const server = express();
 
@@ -16,6 +17,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use(ejsLayouts);
 
 const productController = new ProductController();
+const userController = new UserController();
 server.use(express.static("src/views"));
 server.use(express.static("public"));
 server.get("/", productController.getProducts);
@@ -29,4 +31,6 @@ server.post(
   productController.addNewProduct
 );
 server.post("/update-product", uploadFile.single("imageUrl"), productController.postUpdateProduct);
+server.get("/register",userController.getRegister);
+
 server.listen(3400);
