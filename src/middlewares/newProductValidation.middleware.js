@@ -5,7 +5,12 @@ const validateNewProductRequest = async(req,res,next)=>{
     const rules=[
         body('name').notEmpty().withMessage("Name is required"),
         body('price').isFloat({gt:0}).withMessage("Price must be a positive value"),
-        body('imageUrl').isURL().withMessage(" Invalid URL"),
+        body('imageUrl').custom((value,{req})=>{
+          if(!req.file){
+            throw new Error('Image is required');
+          }
+          return true;
+        })
     ];
 
     // run the rules

@@ -14,15 +14,20 @@ export default class ProductController {
 
   addNewProduct(req, res) {
     console.log(req.body);
-    ProductModel.add(req.body);
+    const {name, price, desc} = req.body;
+    const imageUrl = "images/"+req.file.filename;
+    ProductModel.add({name, price, desc, imageUrl});
     let products = ProductModel.get();
   //  return res.render("products",{ products: products });
   return res.redirect('/');
   }
 
   postUpdateProduct(req, res) {
-    console.log(req.body);
-    ProductModel.updateProduct(req.body);
+    console.log(req.body.name);
+    const {name, price, desc,id} = req.body;
+    console.log(req.file.filename);
+    const imageUrl = "images/"+req.file.filename;
+    ProductModel.updateProduct({name, price, desc,id,imageUrl});
     let products = ProductModel.get();
    return res.render("products",{ products: products });
   }

@@ -11,33 +11,28 @@ export default class ProductModel {
     return products;
   }
 
-  static add(productObj) {
-    let id = Math.floor(Math.random()*100000);
-    let newProduct = new ProductModel(
-      id,
-      productObj.name,
-      productObj.desc,
-      productObj.price,
-      productObj.imageUrl
-    );
+  static add({ name, price, desc, imageUrl }) {
+    let id = Math.floor(Math.random() * 100000);
+    let newProduct = new ProductModel(id, name, desc, price, imageUrl);
     products.push(newProduct);
   }
 
-  static updateProduct(productObj){
-let index = products.findIndex(p=>p.id==productObj.id);
-products[index] = productObj;
+  static updateProduct( {name, price, desc, imageUrl,id} ) {
+    console.log(name);
+    let index = products.findIndex((p) => p.id == id);
+    // products[index] = productObj;
+    products[index] = { id, name, desc, price, imageUrl };
+    console.log(products[index]);
   }
 
-  static delete(id){
-    let index = products.findIndex(p=>p.id==id);
-    products.splice(index,1);
+  static delete(id) {
+    let index = products.findIndex((p) => p.id == id);
+    products.splice(index, 1);
   }
 
-  static getById(id){
-   return products.find(p=>p.id==id);
+  static getById(id) {
+    return products.find((p) => p.id == id);
   }
-
-
 }
 
 var products = [
