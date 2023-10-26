@@ -31,10 +31,14 @@ server.post(
   NewProductValidationMiddleware,
   productController.addNewProduct
 );
-server.post("/update-product", uploadFile.single("imageUrl"), productController.postUpdateProduct);
-server.get("/register",userController.getRegister);
-server.get("/login",userController.getLogin);
-server.post("/register",userController.postRegister);
-
+server.post(
+  "/update-product",
+  uploadFile.single("imageUrl"),
+  productController.postUpdateProduct
+);
+server.get("/register", userController.getRegister);
+server.get("/login", userController.getLogin);
+server.post("/register", userController.postRegister);
+server.post("/login", userController.postLogin);
 
 server.listen(3400);
