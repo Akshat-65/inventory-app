@@ -5,4 +5,11 @@ export default class UserModel {
         this.email = email;
         this.password = password;
     }
+
+    static add(name,email,password){
+        const newUser = new UserModel(users.length+1,name,email,password);
+        users.push(newUser);
+    }
 }
+
+let users = [];

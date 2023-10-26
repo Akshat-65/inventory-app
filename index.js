@@ -12,6 +12,7 @@ const server = express();
 
 server.set("view engine", "ejs");
 server.set("views", path.join(path.resolve(), "src", "views"));
+// parse form data
 server.use(express.urlencoded({ extended: true }));
 
 server.use(ejsLayouts);
@@ -32,5 +33,8 @@ server.post(
 );
 server.post("/update-product", uploadFile.single("imageUrl"), productController.postUpdateProduct);
 server.get("/register",userController.getRegister);
+server.get("/login",userController.getLogin);
+server.post("/register",userController.postRegister);
+
 
 server.listen(3400);
