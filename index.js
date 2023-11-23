@@ -5,8 +5,21 @@ import path from "path";
 import ejsLayouts from "express-ejs-layouts";
 import { uploadFile } from "./src/middlewares/file-upload.middleware.js";
 import UserController from "./src/controllers/user.controller.js";
+import session from "express-session";
+import cookieParser from "cookie-parser";
+import { setLastVisit } from "./src/middlewares/lastVisit.middleware.js";
+import { auth } from "./src/middlewares/auth.middleware.js";
 
 const server = express();
+server.use(session({
+  secret:'SecretKey',
+  resave:false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
+
+server.use(cookieParser());
+server.use(setLastVisit);
 
 // setup view engine
 
@@ -21,18 +34,18 @@ const productController = new ProductController();
 const userController = new UserController();
 server.use(express.static("src/views"));
 server.use(express.static("public"));
-server.get("/", productController.getProducts);
-server.get("/new", productController.getAddForm);
-server.get("/update-product/:id", productController.getUpdateProductView);
-server.post("/delete-product/:id", productController.deleteProduct);
+server.get("/", auth, productController.getProducts);
+server.get("/new", auth, productController.getAddForm);
+server.get("/update-product/:id", auth, productController.getUpdateProductView);
+server.post("/delete-product/:id", auth,productController.deleteProduct);
 server.post(
-  "/add-product",
+  "/add-product",auth,
   uploadFile.single("imageUrl"),
   NewProductValidationMiddleware,
   productController.addNewProduct
 );
 server.post(
-  "/update-product",
+  "/update-product",auth,
   uploadFile.single("imageUrl"),
   productController.postUpdateProduct
 );
@@ -40,5 +53,6 @@ server.get("/register", userController.getRegister);
 server.get("/login", userController.getLogin);
 server.post("/register", userController.postRegister);
 server.post("/login", userController.postLogin);
+server.get("/logout",userController.logout);
 
 server.listen(3400);

@@ -6,7 +6,7 @@ export default class UserController {
   }
 
   getLogin(req, res) {
-    res.render("login", { errorMessage: null });
+    res.render("login", { errorMessage: null,userEmail:req.session.userEmail });
   }
 
   postRegister(req, res) {
@@ -23,6 +23,17 @@ export default class UserController {
         errorMessage: "Invalid Credentials",
       });
     }
+    req.session.userEmail = email;
     return res.redirect("/");
+  }
+
+  logout(req,res){
+    req.session.destroy((err)=>{
+      if(err){
+        console.log(err)
+      }else{
+        res.redirect('/login');
+      }
+    })
   }
 }
