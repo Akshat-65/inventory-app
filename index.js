@@ -19,7 +19,6 @@ server.use(session({
 }))
 
 server.use(cookieParser());
-server.use(setLastVisit);
 
 // setup view engine
 
@@ -34,7 +33,7 @@ const productController = new ProductController();
 const userController = new UserController();
 server.use(express.static("src/views"));
 server.use(express.static("public"));
-server.get("/", auth, productController.getProducts);
+server.get("/", setLastVisit, auth, productController.getProducts);
 server.get("/new", auth, productController.getAddForm);
 server.get("/update-product/:id", auth, productController.getUpdateProductView);
 server.post("/delete-product/:id", auth,productController.deleteProduct);
